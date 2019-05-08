@@ -1,6 +1,7 @@
 package it.polito.tdp.dizionariograph;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.dizionariograph.model.Model;
@@ -43,21 +44,54 @@ public class DizionarioGraphController {
 
     @FXML
     void doGeneraGrafo(ActionEvent event) {
+    	
+    	txtResult.clear();
+    	int numLettere = Integer.parseInt(txtNumChar.getText());
+    	model.createGraph(numLettere);
+    	//txtResult.appendText(model.getGrafo().edgeSet().toString());
 
     }
 
     @FXML
     void doReset(ActionEvent event) {
+    	
+    	txtNumChar.clear();
+    	txtResult.clear();
+    	txtWord.clear();
 
     }
 
     @FXML
     void doTrovaGradoMax(ActionEvent event) {
+    	txtResult.clear();
+    	int maxDegree = model.findMaxDegree();
+    	String verticeTop = model.getMigliore();
+    	txtResult.appendText("Il grado massimo per un grafo con parole da "+
+    				Integer.parseInt(txtNumChar.getText())+" lettere è "+ maxDegree+"\n");
+    	txtResult.appendText("La parola con più simili è: "+verticeTop.toUpperCase()+"\n");
+    	List<String> vicini = model.displayNeighbours(verticeTop);
+		for(String string : vicini) {
+			txtResult.appendText(string+"\n");
+		}
 
     }
 
     @FXML
     void doTrovaVicini(ActionEvent event) {
+    	
+    	txtResult.clear();
+    	int numLettere = Integer.parseInt(txtNumChar.getText());
+    	String parolaInserita = txtWord.getText();
+    	if(parolaInserita.length() != numLettere) {
+    		txtResult.appendText("Numero di lettere nella parola errato");
+    	}else {
+    		List<String> vicini = model.displayNeighbours(parolaInserita);
+    		for(String string : vicini) {
+    			txtResult.appendText(string+"\n");
+    		}
+    	}
+    		
+    	
 
     }
 
